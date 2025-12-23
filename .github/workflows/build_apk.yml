@@ -13,31 +13,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Шаг 1: Загружаем код из репозитория
-    - name: Checkout code
-      uses: actions/checkout@v4
+      # Шаг 1: Загружаем код из репозитория
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    # Шаг 2: Устанавливаем Java (необходима для сборки Android)
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      # Шаг 2: Устанавливаем Java (необходима для сборки Android)
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    # Шаг 3: Даем права на запуск скрипта Gradle
-    - name: Make Gradle executable
-      run: chmod +x ./gradlew
+      # Шаг 3: Даем права на запуск скрипта Gradle
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
 
-    # Шаг 4: Собираем APK (Release-версия)
-    - name: Build Release APK
-      run: ./gradlew assembleRelease
+      # Шаг 4: Собираем APK (Release-версия)
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
 
-    # Шаг 5: Сохраняем собранный APK как артефакт
-    - name: Upload APK artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: app-release-apk
-        # Путь может отличаться! Чаще всего это app/build/outputs/apk/release/
-        # Проверьте в проекте Telegram, куда попадает APK после сборки.
-        path: app/build/outputs/apk/release/
-        retention-days: 7
+      # Шаг 5: Сохраняем собранный APK как артефакт
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          # ВАЖНО: Путь может отличаться в проекте Telegram!
+          path: app/build/outputs/apk/release/
+          retention-days: 7
