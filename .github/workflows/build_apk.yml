@@ -17,7 +17,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Шаг 2: Устанавливаем Java (необходима для сборки Android)
+    # Шаг 2: Устанавливаем Java (необходима для сбоорки Android)
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
