@@ -32,12 +32,15 @@ CMD mkdir -p /home/source/TMessagesProj/build/outputs/apk && \
     mkdir -p /home/source/TMessagesProj/build/outputs/native-debug-symbols && \
     cp -R /home/source/. /home/gradle && \
     cd /home/gradle && \
-    gradle :TMessagesProj_App:bundleBundleAfat_SDK23Release && \
-    gradle :TMessagesProj_App:bundleBundleAfatRelease && \
-    gradle :TMessagesProj_AppStandalone:assembleAfatStandalone && \
-    gradle :TMessagesProj_App:assembleAfatRelease && \
-    gradle :TMessagesProj_AppHuawei:assembleAfatRelease && \
+    # Основные задачи сборки для Telix (подставьте свои, если они отличаются)
+    gradle :app:assembleRelease && \
+    gradle :app:bundleRelease && \
+    # Пример задачи для отдельного модуля, если он у вас есть (например, standalone)
+    # gradle :TelixStandalone:assembleRelease && \
+    # Пример задачи для Huawei, если нужна
+    # gradle :appHuawei:assembleRelease && \
     cp -R /home/gradle/TMessagesProj_App/build/outputs/apk/. /home/source/TMessagesProj/build/outputs/apk && \
-    cp -R /home/gradle/TMessagesProj_AppHuawei/build/outputs/apk/. /home/source/TMessagesProj/build/outputs/apk && \
-    cp -R /home/gradle/TMessagesProj_AppStandalone/build/outputs/apk/. /home/source/TMessagesProj/build/outputs/apk && \
+    # Если вы создавали другие модули, раскомментируйте и поправьте пути:
+    # cp -R /home/gradle/TMessagesProj_AppHuawei/build/outputs/apk/. /home/source/TMessagesProj/build/outputs/apk && \
+    # cp -R /home/gradle/TMessagesProj_AppStandalone/build/outputs/apk/. /home/source/TMessagesProj/build/outputs/apk && \
     cp -R /home/gradle/TMessagesProj_App/build/outputs/bundle/. /home/source/TMessagesProj/build/outputs/bundle
