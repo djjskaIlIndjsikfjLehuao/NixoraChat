@@ -16,7 +16,8 @@ configurations.all {
 }
 
 dependencies {
-    implementation project(':TMessagesProj')
+    // 1. Имя модуля должно быть изменено в settings.gradle
+    implementation project(':TelixCore') // БЫЛО: :TMessagesProj
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
 
     androidTestImplementation 'junit:junit:4.13.2'
@@ -31,8 +32,10 @@ android {
     compileSdkVersion 35
     buildToolsVersion '35.0.0'
 
+    // 2. Убедитесь, что APP_PACKAGE в gradle.properties изменен (напр., com.yourname.telix)
     defaultConfig.applicationId = APP_PACKAGE
 
+    // Путь к jniLibs не меняем (оставляем ../TMessagesProj/jni/)
     sourceSets.main.jniLibs.srcDirs = ['../TMessagesProj/jni/']
     testBuildType "debug"
 
@@ -55,6 +58,7 @@ android {
 
     signingConfigs {
         debug {
+            // Путь к keystore не меняем
             storeFile file("../TMessagesProj/config/release.keystore")
             storePassword RELEASE_STORE_PASSWORD
             keyAlias RELEASE_KEY_ALIAS
@@ -77,6 +81,7 @@ android {
             applicationIdSuffix ".web"
             minifyEnabled false
             multiDexEnabled true
+            // Пути к proguard-файлам не меняем
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro', '../TMessagesProj/proguard-rules-beta.pro'
             ndk.debugSymbolLevel = 'FULL'
         }
@@ -92,6 +97,7 @@ android {
         }
     }
 
+    // Пути к манифестам не меняем
     sourceSets.debug {
         manifest.srcFile '../TMessagesProj/config/release/AndroidManifest.xml'
     }
@@ -102,7 +108,7 @@ android {
     flavorDimensions "minApi"
 
     productFlavors {
-        afat {
+        afat { // Техническое имя flavor - можно оставить
             ndk {
                 abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
             }
@@ -144,21 +150,20 @@ android {
         externalNativeBuild {
             cmake {
                 version '3.10.2'
-                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21' //, '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
+                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21'
             }
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-
     buildFeatures {
         buildConfig = true
     }
-    namespace 'org.telegram.messenger.test'
+    // 3. КРИТИЧЕСКИ ВАЖНО: Меняем namespace (содержит бренд)
+    namespace 'com.telix.messenger' // БЫЛО: org.telegram.messenger.test
 
     lintOptions {
         checkReleaseBuilds false
     }
 }
-
