@@ -1,8 +1,7 @@
-package org.telegram.tgnet.model
+package com.telix.messenger.tgnet.model
 
-import org.telegram.messenger.Utilities
-import org.telegram.tgnet.OutputSerializedData
-
+import com.telix.messenger.Utilities
+import com.telix.messenger.tgnet.OutputSerializedData
 
 public object TlGen_Vector {
     public const val MAGIC: UInt = 0x1CB5C415U
